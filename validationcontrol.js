@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 function Validationcontrol() {
   const [details, setdetails] = useState({
-    firstname: "",
-    lastname: "",
+    name: "",
+    mobilenumber: "",
     email: "",
     password: "",
   });
@@ -20,27 +20,37 @@ function Validationcontrol() {
     seterror(validate(details));
     submitted(true);
   };
-//   useEffect(() => {
-//     console.log(error);
-//     if (Object.keys(error).length === 0 && issubmit) {
-//       console.log(details);
-//     }
-//   }, [error]);
+  useEffect(() => {
+    console.log(error);
+    if (Object.keys(error).length === 0 && issubmit) {
+      console.log(details);
+    }
+  }, [error]);
   const validate = (values) => {
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     const removeEmptySpaces = /\s/g;
+    const re = /^[A-Za-z]+$/;
+    const num = /^[0-9\b]+$/;
     console.log(values);
-    console.log(values.firstname);
-    if (!values.firstname) {
-      errors.firstname = "firstname is required";
-    } else if (removeEmptySpaces.test(values.firstname)) {
-      errors.firstname = "whitespace not allowed";
+    console.log(values.name);
+    if (!values.name) {
+      errors.name = "firstname is required";
+    } else if (removeEmptySpaces.test(values.name)) {
+      errors.name = "whitespace not allowed";
+    } else if (!re.test(values.firstname)) {
+      errors.name = "only alphabets allowed";
     }
-    if (!values.lastname) {
-      errors.lastname = "lastname is required";
-    } else if (removeEmptySpaces.test(values.lastname)) {
-      errors.lastname = "whitespace not allowed";
+    if (!values.mobilenumber) {
+      errors.mobilenumber = "mobilenumber is required";
+    } else if (removeEmptySpaces.test(values.mobilenumber)) {
+      errors.mobilenumber = "whitespace not allowed";
+    } else if (values.mobilenumber.length > 10) {
+      errors.mobilenumber = "mobilenumber must be less than 10 numbers";
+    } else if (values.mobilenumber.length < 10) {
+      errors.mobilenumber = "mobilenumber must be greater than 10 numbers";
+    } else if (!num.test(values.mobilenumber)) {
+      errors.mobilenumber = "only numerics are allowed";
     }
     if (!values.email) {
       errors.email = "email is required";
@@ -62,26 +72,26 @@ function Validationcontrol() {
     <header className="header">
       <form onSubmit={submitchange}>
         <label>
-          enter first name
+          enter name
           <input
             type="text"
-            name="firstname"
-            value={details.firstname}
+            name="name"
+            value={details.name}
             onChange={handlechange}
           />
         </label>
-        <p style={{ color: "red" }}>{error.firstname}</p>
+        <p style={{ color: "red" }}>{error.name}</p>
         <br />
         <label>
-          enter last name
+          enter mobilenumber
           <input
             type="text"
-            name="lastname"
-            value={details.lastname}
+            name="mobilenumber"
+            value={details.mobilenumber}
             onChange={handlechange}
           />
         </label>
-        <p style={{ color: "red" }}>{error.lastname}</p>
+        <p style={{ color: "red" }}>{error.mobilenumber}</p>
         <br />
         <label>
           enter email
@@ -107,12 +117,25 @@ function Validationcontrol() {
         <br />
         <input type="submit" />
       </form>
-      <p>{issubmit ? [details.firstname] : null}</p>
-      <p>{issubmit ? [details.lastname] : null}</p>
-      <p>{issubmit ? [details.email] : null}</p>
-      <p>{issubmit ? [details.password] : null}</p>
+      <p>
+        {issubmit && Object.keys(error).length === 0 ? [details.name] : null}
+      </p>
+      <p>
+        {issubmit && Object.keys(error).length === 0
+          ? [details.mobilenumber]
+          : null}
+      </p>
+      <p>
+        {issubmit && Object.keys(error).length === 0 ? [details.email] : null}
+      </p>
+      <p>
+        {issubmit && Object.keys(error).length === 0
+          ? [details.password]
+          : null}
+      </p>
     </header>
   );
 }
 
 export default Validationcontrol;
+
