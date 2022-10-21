@@ -38,7 +38,7 @@ function Validationcontrol() {
       errors.name = "firstname is required";
     } else if (removeEmptySpaces.test(values.name)) {
       errors.name = "whitespace not allowed";
-    } else if (!re.test(values.firstname)) {
+    } else if (!re.test(values.name)) {
       errors.name = "only alphabets allowed";
     }
     if (!values.mobilenumber) {
