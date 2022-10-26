@@ -20,50 +20,54 @@ function Validationcontrol() {
     seterror(validate(details));
     submitted(true);
   };
-  useEffect(() => {
-    console.log(error);
-    if (Object.keys(error).length === 0 && issubmit) {
-      console.log(details);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   console.log(error);
+  //   console.log(Object.keys(error));
+  //   if (Object.keys(error).length === 0 && issubmit) {
+  //     console.log(details);
+  //   }
+  // }, [error]);
   const validate = (values) => {
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     const removeEmptySpaces = /\s/g;
     const re = /^[A-Za-z]+$/;
     const num = /^[0-9\b]+$/;
+    const pwd =
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
     console.log(values);
     console.log(values.name);
     if (!values.name) {
-      errors.name = "firstname is required";
+      errors.name = "Name is required";
     } else if (removeEmptySpaces.test(values.name)) {
-      errors.name = "whitespace not allowed";
+      errors.name = "Whitespace not allowed";
     } else if (!re.test(values.name)) {
-      errors.name = "only alphabets allowed";
+      errors.name = "Only alphabets allowed";
     }
     if (!values.mobilenumber) {
-      errors.mobilenumber = "mobilenumber is required";
+      errors.mobilenumber = "Mobilenumber is required";
     } else if (removeEmptySpaces.test(values.mobilenumber)) {
-      errors.mobilenumber = "whitespace not allowed";
+      errors.mobilenumber = "Whitespace not allowed";
     } else if (values.mobilenumber.length > 10) {
-      errors.mobilenumber = "mobilenumber must be less than 10 numbers";
+      errors.mobilenumber = "Mobilenumber must be less than 10 numbers";
     } else if (values.mobilenumber.length < 10) {
-      errors.mobilenumber = "mobilenumber must be greater than 10 numbers";
+      errors.mobilenumber = "Mobilenumber must be greater than 10 numbers";
     } else if (!num.test(values.mobilenumber)) {
-      errors.mobilenumber = "only numerics are allowed";
+      errors.mobilenumber = "Only numerics are allowed";
     }
     if (!values.email) {
-      errors.email = "email is required";
+      errors.email = "Email is required";
     } else if (!regex.test(values.email)) {
-      errors.email = "this is not valid";
+      errors.email = "This is not valid";
     }
 
     if (!values.password) {
-      errors.password = "password is required";
-    } else if (values.password.length < 4) {
-      errors.password = "password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      errors.password = "password must be less than 10 characters";
+      errors.password = "Password is required";
+    } else if (values.password.length > 15) {
+      errors.password = "Password must be less than 15 characters";
+    } else if (!pwd.test(values.password)) {
+      errors.password =
+        "Password should have maximum of 8 character with uppercase,lowercase,numbers and special characters";
     }
     return errors;
   };
@@ -72,7 +76,7 @@ function Validationcontrol() {
     <header className="header">
       <form onSubmit={submitchange}>
         <label>
-          enter name
+          Enter name
           <input
             type="text"
             name="name"
@@ -83,7 +87,7 @@ function Validationcontrol() {
         <p style={{ color: "red" }}>{error.name}</p>
         <br />
         <label>
-          enter mobilenumber
+          Enter mobilenumber
           <input
             type="text"
             name="mobilenumber"
@@ -94,7 +98,7 @@ function Validationcontrol() {
         <p style={{ color: "red" }}>{error.mobilenumber}</p>
         <br />
         <label>
-          enter email
+          Enter email
           <input
             type="text"
             name="email"
@@ -105,9 +109,9 @@ function Validationcontrol() {
         <p style={{ color: "red" }}>{error.email}</p>
         <br />
         <label>
-          enter password
+          Enter password
           <input
-            type="password"
+            type="text"
             name="password"
             value={details.password}
             onChange={handlechange}
@@ -138,4 +142,5 @@ function Validationcontrol() {
 }
 
 export default Validationcontrol;
+
 
