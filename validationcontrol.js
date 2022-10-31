@@ -19,14 +19,23 @@ function Validationcontrol() {
     e.preventDefault();
     seterror(validate(details));
     submitted(true);
+    localStorage.setItem("details", JSON.stringify(details));
   };
   // useEffect(() => {
-  //   console.log(error);
-  //   console.log(Object.keys(error));
-  //   if (Object.keys(error).length === 0 && issubmit) {
-  //     console.log(details);
-  //   }
-  // }, [error]);
+  //   localStorage.setItem("details", JSON.stringify(details));
+  // }, [details]);
+  useEffect(() => {
+    const data = localStorage.getItem("details");
+    console.log(data);
+    if (data) {
+      setdetails(JSON.parse(data));
+    }
+  }, []);
+
+  // useEffect(()=>{
+  //   localStorage.setItem("details", JSON.stringify(details));
+  //   console.log("-------------------",localStorage.getItem("details"))
+  // },[details])
   const validate = (values) => {
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -35,8 +44,8 @@ function Validationcontrol() {
     const num = /^[0-9\b]+$/;
     const pwd =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    console.log(values);
-    console.log(values.name);
+    // console.log(values);
+    //console.log(values.name);
     if (!values.name) {
       errors.name = "Name is required";
     } else if (removeEmptySpaces.test(values.name)) {
@@ -46,14 +55,14 @@ function Validationcontrol() {
     }
     if (!values.mobilenumber) {
       errors.mobilenumber = "Mobilenumber is required";
+    } else if (!num.test(values.mobilenumber)) {
+      errors.mobilenumber = "Only numerics are allowed";
     } else if (removeEmptySpaces.test(values.mobilenumber)) {
       errors.mobilenumber = "Whitespace not allowed";
     } else if (values.mobilenumber.length > 10) {
       errors.mobilenumber = "Mobilenumber must be less than 10 numbers";
     } else if (values.mobilenumber.length < 10) {
       errors.mobilenumber = "Mobilenumber must be greater than 10 numbers";
-    } else if (!num.test(values.mobilenumber)) {
-      errors.mobilenumber = "Only numerics are allowed";
     }
     if (!values.email) {
       errors.email = "Email is required";
@@ -77,6 +86,7 @@ function Validationcontrol() {
       <form onSubmit={submitchange}>
         <label>
           Enter name
+          <br />
           <input
             type="text"
             name="name"
@@ -88,6 +98,7 @@ function Validationcontrol() {
         <br />
         <label>
           Enter mobilenumber
+          <br />
           <input
             type="text"
             name="mobilenumber"
@@ -99,6 +110,7 @@ function Validationcontrol() {
         <br />
         <label>
           Enter email
+          <br />
           <input
             type="text"
             name="email"
@@ -110,6 +122,7 @@ function Validationcontrol() {
         <br />
         <label>
           Enter password
+          <br />
           <input
             type="text"
             name="password"
@@ -121,6 +134,11 @@ function Validationcontrol() {
         <br />
         <input type="submit" />
       </form>
+      <p style={{ color: "green" }}>
+        {issubmit && Object.keys(error).length === 0
+          ? "successfully validated!!!"
+          : null}
+      </p>
       <p>
         {issubmit && Object.keys(error).length === 0 ? [details.name] : null}
       </p>
@@ -142,5 +160,4 @@ function Validationcontrol() {
 }
 
 export default Validationcontrol;
-
 
