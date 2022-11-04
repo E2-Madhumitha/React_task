@@ -1,162 +1,171 @@
 import { useState, useEffect } from "react";
 function Validationcontrol() {
-  const [details, setdetails] = useState({
-    name: "",
-    mobilenumber: "",
-    email: "",
-    password: "",
-  });
-  const [error, seterror] = useState({});
-  const [issubmit, submitted] = useState(false);
-  const handlechange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setdetails((prev) => {
-      return { ...prev, [name]: value };
+    const [details, setdetails] = useState({
+        username: "",
+        mobilenumber: "",
+        email: "",
+        password: "",
     });
-  };
-  const submitchange = (e) => {
-    e.preventDefault();
-    seterror(validate(details));
-    submitted(true);
-    localStorage.setItem("details", JSON.stringify(details));
-  };
-  // useEffect(() => {
-  //   localStorage.setItem("details", JSON.stringify(details));
-  // }, [details]);
-  useEffect(() => {
-    const data = localStorage.getItem("details");
-    console.log(data);
-    if (data) {
-      setdetails(JSON.parse(data));
-    }
-  }, []);
+    const [error, seterror] = useState({});
+    const [issubmit, submitted] = useState(false);
+    const handlechange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        seterror(validate(details));
+        setdetails((prev) => {
+            return { ...prev, [name]: value };
+        });
+    };
+    const submitchange = (e) => {
+        e.preventDefault();
+        const val = (details) => {
+            let err = {};
+            if (!details.username) {
+                err.username = "Username is required";
+            }
+            if (!details.mobilenumber) {
+                err.mobilenumber = "Mobilenumber is required";
+            }
+            if (!details.email) {
+                err.email = "Email is required";
+            }
+            if (!details.password) {
+                err.password = "Password is required";
+            }
+            return err;
+        };
+        if (
+            details.username &&
+            details.mobilenumber &&
+            details.email &&
+            details.password
+        ) {
+            submitted(true);
+        } else if (
+            !details.username &&
+            !details.mobilenumber &&
+            !details.email &&
+            !details.password
+        ) {
+            seterror(val(details));
+        }
+        localStorage.setItem("details", JSON.stringify(details));
+    };
 
-  // useEffect(()=>{
-  //   localStorage.setItem("details", JSON.stringify(details));
-  //   console.log("-------------------",localStorage.getItem("details"))
-  // },[details])
-  const validate = (values) => {
-    const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    const removeEmptySpaces = /\s/g;
-    const re = /^[A-Za-z]+$/;
-    const num = /^[0-9\b]+$/;
-    const pwd =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-    // console.log(values);
-    //console.log(values.name);
-    if (!values.name) {
-      errors.name = "Name is required";
-    } else if (removeEmptySpaces.test(values.name)) {
-      errors.name = "Whitespace not allowed";
-    } else if (!re.test(values.name)) {
-      errors.name = "Only alphabets allowed";
-    }
-    if (!values.mobilenumber) {
-      errors.mobilenumber = "Mobilenumber is required";
-    } else if (!num.test(values.mobilenumber)) {
-      errors.mobilenumber = "Only numerics are allowed";
-    } else if (removeEmptySpaces.test(values.mobilenumber)) {
-      errors.mobilenumber = "Whitespace not allowed";
-    } else if (values.mobilenumber.length > 10) {
-      errors.mobilenumber = "Mobilenumber must be less than 10 numbers";
-    } else if (values.mobilenumber.length < 10) {
-      errors.mobilenumber = "Mobilenumber must be greater than 10 numbers";
-    }
-    if (!values.email) {
-      errors.email = "Email is required";
-    } else if (!regex.test(values.email)) {
-      errors.email = "This is not valid";
-    }
+    useEffect(() => {
+        const data = localStorage.getItem("details");
+        console.log(data);
+        if (data) {
+            setdetails(JSON.parse(data));
+        }
+    }, []);
 
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (values.password.length > 15) {
-      errors.password = "Password must be less than 15 characters";
-    } else if (!pwd.test(values.password)) {
-      errors.password =
-        "Password should have maximum of 8 character with uppercase,lowercase,numbers and special characters";
-    }
-    return errors;
-  };
+    const validate = (values) => {
+        const errors = {};
+        const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const removeEmptySpaces = /^\s/g;
+        const re = /^[A-Za-z]*$/;
+        const num = /^[0-9\b]+$/;
+        const pwd =
+            /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        if (!values.username) {
+            errors.username = "Username is required";
+        } else if (
+            removeEmptySpaces.test(values.username) ||
+            !re.test(values.username)
+        ) {
+            errors.username = "Only alphabets allowed";
+        }
+        if (!values.mobilenumber) {
+            errors.mobilenumber = "Mobilenumber is required";
+        } else if (
+            removeEmptySpaces.test(values.mobilenumber) ||
+            !num.test(values.mobilenumber)
+        ) {
+            errors.mobilenumber = "Only numerics are allowed";
+        } else if (
+            values.mobilenumber.length < 9 ||
+            values.mobilenumber.length > 10
+        ) {
+            errors.mobilenumber = "Mobilenumber must contain 10 digits";
+        }
+        if (!values.email) {
+            errors.email = "Email is required";
+        } else if (!regex.test(values.email)) {
+            errors.email = "This is not valid";
+        }
 
-  return (
-    <header className="header">
-      <form onSubmit={submitchange}>
-        <label>
-          Enter name
-          <br />
-          <input
-            type="text"
-            name="name"
-            value={details.name}
-            onChange={handlechange}
-          />
-        </label>
-        <p style={{ color: "red" }}>{error.name}</p>
-        <br />
-        <label>
-          Enter mobilenumber
-          <br />
-          <input
-            type="text"
-            name="mobilenumber"
-            value={details.mobilenumber}
-            onChange={handlechange}
-          />
-        </label>
-        <p style={{ color: "red" }}>{error.mobilenumber}</p>
-        <br />
-        <label>
-          Enter email
-          <br />
-          <input
-            type="text"
-            name="email"
-            value={details.email}
-            onChange={handlechange}
-          />
-        </label>
-        <p style={{ color: "red" }}>{error.email}</p>
-        <br />
-        <label>
-          Enter password
-          <br />
-          <input
-            type="text"
-            name="password"
-            value={details.password}
-            onChange={handlechange}
-          />
-        </label>
-        <p style={{ color: "red" }}>{error.password}</p>
-        <br />
-        <input type="submit" />
-      </form>
-      <p style={{ color: "green" }}>
-        {issubmit && Object.keys(error).length === 0
-          ? "successfully validated!!!"
-          : null}
-      </p>
-      <p>
-        {issubmit && Object.keys(error).length === 0 ? [details.name] : null}
-      </p>
-      <p>
-        {issubmit && Object.keys(error).length === 0
-          ? [details.mobilenumber]
-          : null}
-      </p>
-      <p>
-        {issubmit && Object.keys(error).length === 0 ? [details.email] : null}
-      </p>
-      <p>
-        {issubmit && Object.keys(error).length === 0
-          ? [details.password]
-          : null}
-      </p>
-    </header>
-  );
+        if (!values.password) {
+            errors.password = "Password is required";
+        } else if (values.password.length > 15) {
+            errors.password = "Password must be less than 15 characters";
+        } else if (!pwd.test(values.password)) {
+            errors.password = "This is not valid";
+        }
+        return errors;
+    };
+
+    return (
+        <div className="container">
+            <form onSubmit={submitchange}>
+                <div className="sample">
+                    <div className="header">
+                        <p>Registration Form</p>
+                    </div>
+                    <div className="content">
+                        <div className="name">
+                            <label>Username</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={details.username}
+                                onChange={handlechange}
+                            />
+                            <span>{error.username}</span>
+                        </div>
+                        <div className="mobilenumber">
+                            <label>Mobilenumber</label>
+                            <input
+                                type="text"
+                                name="mobilenumber"
+                                value={details.mobilenumber}
+                                onChange={handlechange}
+                            />
+                            <span>{error.mobilenumber}</span>
+                        </div>
+                        <div className="email">
+                            <label>Email</label>
+                            <input
+                                type="text"
+                                name="email"
+                                value={details.email}
+                                onChange={handlechange}
+                            />
+                            <span>{error.email}</span>
+                        </div>
+                        <div className="password">
+                            <label>Password</label>
+                            <input
+                                type="text"
+                                name="password"
+                                value={details.password}
+                                onChange={handlechange}
+                            />
+                            <span>{error.password}</span>
+                        </div>
+                        <div className="but">
+                            <button type="submit">Submit</button>
+                            <p style={{ color: "green" }}>
+                                {issubmit && Object.keys(error).length === 0
+                                    ? "successfully validated!!!"
+                                    : null}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    );
 }
 
 export default Validationcontrol;
