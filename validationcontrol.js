@@ -17,13 +17,12 @@ function Validationcontrol() {
         const pwd =
             /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-_]).{8,}$/;
 
-        const removeEmptySpaces = /^\s/g;
+        const removeEmptySpaces = /\s/g;
         if (name == "username" && !value) {
             seterror({ ...error, username: "Username is required" });
-        } else if (
-            name == "username" &&
-            (removeEmptySpaces.test(value) || !re.test(value))
-        ) {
+        } else if (name == "username" && removeEmptySpaces.test(value)) {
+            seterror({ ...error, username: "No whitespace allowed" });
+        } else if (name == "username" && !re.test(value)) {
             seterror({ ...error, username: "Only alphabets allowed" });
         } else if (name == "username" && re.test(value)) {
             seterror({ ...error, username: "" });
@@ -31,11 +30,10 @@ function Validationcontrol() {
 
         if (name == "mobilenumber" && !value) {
             seterror({ ...error, mobilenumber: "Mobilenumber is required" });
-        } else if (
-            name == "mobilenumber" &&
-            (removeEmptySpaces.test(value) || !num.test(value))
-        ) {
-            seterror({ ...error, mobilenumber: "Only numerics are allowed" });
+        } else if (name == "mobilenumber" && removeEmptySpaces.test(value)) {
+            seterror({ ...error, mobilenumber: "No whitespace allowed" });
+        } else if (name == "mobilenumber" && !num.test(value)) {
+            seterror({ ...error, mobilenumber: "Only numerics allowed" });
         } else if (
             name == "mobilenumber" &&
             (value.length < 9 || value.length > 10)
@@ -156,6 +154,7 @@ function Validationcontrol() {
                                 name="username"
                                 value={details.username}
                                 onChange={handlechange}
+                                maxLength={15}
                             />
                             <span>{error.username}</span>
                         </div>
@@ -209,4 +208,5 @@ function Validationcontrol() {
 }
 
 export default Validationcontrol;
+
 
