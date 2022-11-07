@@ -84,9 +84,7 @@ function Validationcontrol() {
             if (!details.username) {
                 err.username = "Username is required";
             }
-            if (details.username) {
-                err.username = "";
-            }
+            
 
             if (error.mobilenumber) {
                 err.mobilenumber = error.mobilenumber;
@@ -94,27 +92,21 @@ function Validationcontrol() {
             if (!details.mobilenumber) {
                 err.mobilenumber = "Mobilenumber is required";
             }
-            if (details.mobilenumber) {
-                err.mobilenumber = "";
-            }
+            
             if (error.email) {
                 err.email = error.email;
             }
             if (!details.email) {
                 err.email = "Email is required";
             }
-            if (details.email) {
-                err.email = "";
-            }
+           
             if (error.password) {
                 err.password = error.password;
             }
             if (!details.password) {
                 err.password = "Password is required";
             }
-            if (details.password) {
-                err.password = "";
-            }
+            
             return err;
         };
         if (
