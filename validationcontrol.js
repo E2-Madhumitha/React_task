@@ -72,47 +72,41 @@ function Validationcontrol() {
         setdetails((prev) => {
             return { ...prev, [name]: value };
         });
+        console.log(details);
     };
-    console.log("error", error.username);
+    //console.log("error", error.username);
     const submitchange = (e) => {
         e.preventDefault();
         const val = (details) => {
             let err = {};
-            if (error.username) {
-                err.username = error.username;
-            }
             if (!details.username) {
                 err.username = "Username is required";
-            }
-            if (details.username) {
+            } else if (error.username) {
+                err.username = error.username;
+            } else if (!error.username) {
                 err.username = "";
             }
 
-            if (error.mobilenumber) {
-                err.mobilenumber = error.mobilenumber;
-            }
             if (!details.mobilenumber) {
                 err.mobilenumber = "Mobilenumber is required";
-            }
-            if (details.mobilenumber) {
+            } else if (error.mobilenumber) {
+                err.mobilenumber = error.mobilenumber;
+            } else if (!error.mobilenumber) {
                 err.mobilenumber = "";
-            }
-            if (error.email) {
-                err.email = error.email;
             }
             if (!details.email) {
                 err.email = "Email is required";
-            }
-            if (details.email) {
+            } else if (error.email) {
+                err.email = error.email;
+            } else if (!error.email) {
                 err.email = "";
             }
-            if (error.password) {
-                err.password = error.password;
-            }
+
             if (!details.password) {
                 err.password = "Password is required";
-            }
-            if (details.password) {
+            } else if (error.password) {
+                err.password = error.password;
+            } else if (!error.password) {
                 err.password = "";
             }
             return err;
@@ -215,3 +209,4 @@ function Validationcontrol() {
 }
 
 export default Validationcontrol;
+
