@@ -1,12 +1,14 @@
-import { useNavigate } from "react-router-dom";
-export const Home = () => {
-    const navigate = useNavigate();
+import { useHistory } from "react-router-dom";
+export const Home=() =>{
+    const history = useHistory();
+    const handleClick = () => {
+        history.push("/ordersummary");
+    };
     return (
         <>
             <div>Home page</div>
-            <button onClick={() => navigate("order-summary")}>
-                Place order
-            </button>
+            <button onClick={handleClick}>Place order</button>
         </>
     );
-};
+}
+

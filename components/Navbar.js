@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { useAuth } from "./auth";
+// import { useAuth } from "./auth";
 export const Navbar = () => {
-    const auth = useAuth();
+    // const auth = useAuth();
     return (
         <nav className="primary-nav">
             <NavLink to="/">HOME</NavLink>
@@ -9,7 +9,9 @@ export const Navbar = () => {
             <NavLink to="/contact">CONTACT</NavLink>
             <NavLink to="/products">PRODUCTS</NavLink>
             <NavLink to="/profile">PROFILE</NavLink>
-            {!auth.user && <NavLink to="/login">LOGIN</NavLink>}
+            <NavLink to="/users?category=activefilter">ACTIVE USERS</NavLink>
+            <NavLink to="/users?category=resetfilter">RESET FILTER</NavLink>
+            {/* {!auth.user && <NavLink to="/login">LOGIN</NavLink>} */}
         </nav>
     );
 };

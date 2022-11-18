@@ -1,10 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 export const Ordersummary = () => {
-    const navigate = useNavigate();
+    const history = useHistory();
+    const handleClick=()=>{
+        history.push("/");
+    }
     return (
         <>
             <div>Order placed</div>
-            <button onClick={() => navigate("/")}>Back</button>
+            <button onClick={handleClick}>Back</button>
         </>
     );
 };
