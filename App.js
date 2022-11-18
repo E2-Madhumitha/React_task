@@ -1,23 +1,23 @@
-import { ExpenseItem, ExpenseItems } from "./ExpenseItem";
-import Trial from "./trial";
-import FavoriteColor from "./state";
-import { Navmenu, Welcome, Garage } from "./class";
-import NameLists from "./props";
-import Mapping from "./map";
-import MyForm from "./task";
-import Goal from "./mapping";
+import { ExpenseItem, ExpenseItems } from "./Sample/ExpenseItem";
+import Trial from "./Sample/trial";
+import FavoriteColor from "./Sample/state";
+import { Navmenu, Welcome, Garage } from "./Sample/class";
+import NameLists from "./Sample/props";
+import Mapping from "./Sample/map";
+import MyForm from "./Validation/task";
+import Goal from "./Sample/mapping";
 import "./App.css";
-import Form from "./Form";
-import Car from "./car";
-import Sampleform from "./Sampleform";
-import Display from "./display";
-import Control from "./Uncontrolledcomponent";
-import Validation from "./Validation";
-import Validationcontrol from "./validationcontrol";
-import Validationuncontrol from "./validationuncontrol";
-import Refs from "./refs";
-import Events from "./Events";
-import { Routes, Route } from "react-router-dom";
+import Form from "./Validation/Form";
+import Car from "./Sample/car";
+import Sampleform from "./Validation/Sampleform";
+import Display from "./Sample/display";
+import Control from "./Validation/Uncontrolledcomponent";
+import Validation from "./Validation/Validation";
+import Validationcontrol from "./Validation/validationcontrol";
+import Validationuncontrol from "./Validation/validationuncontrol";
+import Refs from "./Sample/refs";
+import Events from "./Sample/Events";
+import { Switch, Route } from "react-router-dom";
 import { Home } from "./components/Home";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
@@ -25,7 +25,7 @@ import { Navbar } from "./components/Navbar";
 import { BrowserRouter } from "react-router-dom";
 import { Ordersummary } from "./components/order-summary";
 import { Nomatch } from "./components/Nomatch";
-import { Successfulsubmission } from "./Successfulsubmission";
+import { Successfulsubmission } from "./Validation/Successfulsubmission";
 import { Products } from "./components/products";
 import { Featuredproducts } from "./components/Featuredproducts";
 import { Newproducts } from "./components/Newproducts";
@@ -73,48 +73,42 @@ function App() {
       <Car/> 
        <Validationcontrol />*/}
             <BrowserRouter>
-                <AuthProvider>
-                    <Navbar />
-                    <Routes>
-                        <Route path="/" element={<Home />}>
-                            {" "}
-                        </Route>
-                        <Route path="about" element={<About />}>
-                            {" "}
-                        </Route>
-                        <Route path="contact" element={<Contact />}>
-                            {" "}
-                        </Route>
-                        <Route path="order-summary" element={<Ordersummary />}>
-                            {" "}
-                        </Route>
-                        <Route path="users" element={<Users />}>
-                            <Route path=":userId" element={<Userdetails />} />
-                            <Route path="admin" element={<Admin />} />
-                        </Route>
-                        <Route path="*" element={<Nomatch />}>
-                            {" "}
-                        </Route>
-                        <Route path="products" element={<Products />}>
-                            {" "}
-                            <Route index element={<Featuredproducts />} />
-                            <Route
-                                path="featured"
-                                element={<Featuredproducts />}
-                            ></Route>
-                            <Route path="new" element={<Newproducts />}></Route>
-                        </Route>
-                        <Route
+                {/* <AuthProvider> */}
+                <Navbar />
+                <Switch>
+                    <Route exact path="/">
+                        <Home />
+                    </Route>
+                    <Route exact path="/about">
+                        <About />
+                    </Route>
+                    <Route exact path="/contact">
+                        <Contact />
+                    </Route>
+                    <Route exact path="/ordersummary">
+                        <Ordersummary />
+                    </Route>
+                    <Route path="/users">
+                        <Users />
+                    </Route>
+                    <Route path="/products">
+                        <Products />
+                    </Route>
+                    <Route exact path="*">
+                        <Nomatch />
+                    </Route>
+
+                    {/* <Route
                             path="profile"
                             element={
                                 <RequireAuth>
                                     <Profile />
                                 </RequireAuth>
                             }
-                        ></Route>
-                        <Route path="login" element={<Login />}></Route>
-                    </Routes>
-                </AuthProvider>
+                        ></Route> */}
+                    {/* <Route path="login" element={<Login />}></Route> */}
+                </Switch>
+                {/* </AuthProvider> */}
             </BrowserRouter>
             {/* <Routes>
                     <Route path="/" element={<Validationcontrol />}>
