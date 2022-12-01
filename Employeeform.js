@@ -13,6 +13,7 @@ function Employeeform() {
     const navigate = useNavigate();
     const [error, seterror] = useState({});
     const [issubmit, setsubmitted] = useState(false);
+    const data = JSON.parse(localStorage.getItem("deptdetails"));
     const handlechange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -186,14 +187,14 @@ function Employeeform() {
         // localStorage.setItem("details", JSON.stringify(inputarr));
     };
 
-    useEffect(() => {
-        const data = localStorage.getItem("details");
+     useEffect(() => {
+        const datas = localStorage.getItem("details");
         console.log(data);
-        if (data) {
-            setdetails(JSON.parse(data));
+        if (datas) {
+            setdetails(JSON.parse(datas));
         }
     }, []);
-    console.log("**************", details.name);
+    console.log("**************", details.department);
     return (
         <>
             <div className="container">
@@ -216,13 +217,13 @@ function Employeeform() {
                             </div>
                             <div className="department">
                                 <label>Department*</label>
-                                <input
-                                    type="text"
-                                    name="department"
-                                    value={details.department}
-                                    onChange={handlechange}
-                                />
-                                <span>{error.department}</span>
+                                <select value={details.department} name="department" onChange={handlechange}>
+                                    {data.map((option,index)=>(
+                                    <option key={index} value={option.department}>{option.department}</option>
+                                    ))}
+                                </select>
+
+                                {/* <span>{error.department}</span> */}
                             </div>
                             <div className="job_title">
                                 <label>Job Title*</label>
@@ -256,19 +257,27 @@ function Employeeform() {
                             </div>
                             <div className="but">
                                 <button type="submit">Submit</button>
-                                <button type="button" onClick={() => navigate("view")}>Table</button>
-                               
+                                <button
+                                    type="button"
+                                    onClick={() => navigate("view")}
+                                >
+                                    Table
+                                </button>
+
                                 {
                                     <p style={{ color: "green" }}>
                                         {issubmit &&
                                         error.name.length == 0 &&
-                                        error.department.length == 0 &&
+                                        // error.department.length == 0 &&
                                         error.job_title.length == 0 &&
                                         error.contact_number.length == 0 &&
                                         error.years_of_experience.length == 0
-                                            ?  localStorage.setItem("details", JSON.stringify(inputarr))
-                                            // "SUCCESSFULLY VALIDATED!!!"
-                                            : null}
+                                            ? localStorage.setItem(
+                                                  "details",
+                                                  JSON.stringify(inputarr)
+                                              )
+                                            : // "SUCCESSFULLY VALIDATED!!!"
+                                              null}
                                     </p>
                                 }
                             </div>

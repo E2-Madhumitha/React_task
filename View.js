@@ -5,14 +5,7 @@ export const View = () => {
     const navigate = useNavigate();
     const data = JSON.parse(localStorage.getItem("details"));
     console.log(data);
-    // const[localstore,setlocalstore]=useState(data)
-    // useEffect(() => {
-    //     const datas = localStorage.getItem("data");
-    //     console.log(datas);
-    //     if (datas) {
-    //         setlocalstore(JSON.parse(datas));
-    //     }
-    // }, [data]);
+
     return (
         <div className="view-container">
             {
@@ -50,7 +43,7 @@ export const View = () => {
                         </tbody>
                     
                     </table>
-                    <button type="button" onClick={() => navigate("/")}>back</button>
+                    {/* <button type="button" onClick={() => navigate("/")}>back</button> */}
                 </div>
             }
         </div>

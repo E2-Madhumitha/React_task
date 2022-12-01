@@ -27,6 +27,10 @@ form {
     height: 70%;
     width: 40%;
 }
+.form{
+    height: 40%;
+    width: 30%;
+}
 .sample {
     height: 100%;
     width: 100%;
@@ -64,10 +68,9 @@ form {
     height: 16%;
     width: 100%;
 }
-.person_name,
-.departmentd,
-.year {
-    height: 26%;
+
+.departmentd {
+    height: 67%;
     width: 100%;
 }
 input[type="text"] {
@@ -75,6 +78,13 @@ input[type="text"] {
     width: 80%;
     border: none;
     border-bottom: 2px solid rgb(54, 194, 212);
+    outline: 0px;
+    font-size: 18px;
+}
+select{
+    height: 30%;
+    width: 80%;
+    border: none;
     outline: 0px;
     font-size: 18px;
 }
@@ -105,6 +115,7 @@ span {
     width: 100%;
     font-size: 14px;
 }
+
 .but button {
     height: 10%;
     width: 50%;
