@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -7,11 +7,18 @@ export const Deptview = () => {
     // const data = JSON.parse(localStorage.getItem("deptdetails"));
     // console.log(data);
     const iparr = useSelector((state) => state.iparr);
+    const [searchItem, setSearchItem] = useState("");
     return (
         <div className="view-container">
             {
                 <div className="tablecontainer">
-                    <input type="search" placeholder="search" />
+                    <input
+                        type="text"
+                        placeholder="search"
+                        onChange={(e) => {
+                            setSearchItem(e.target.value);
+                        }}
+                    />
                     <table border={1} className="table">
                         <thead>
                             <tr>
@@ -25,13 +32,27 @@ export const Deptview = () => {
                                     <td colSpan={4}>NO data Enter yet !</td>
                                 </tr>
                             ) : (
-                                iparr.map((info, ind) => {
-                                    return (
-                                        <tr key={ind}>
-                                            <td>{info.department}</td>
-                                        </tr>
-                                    );
-                                })
+                                iparr
+                                    .filter((val) => {
+                                        if (searchItem === "") {
+                                            return val;
+                                        } else if (
+                                            val.department
+                                                .toLowerCase()
+                                                .includes(
+                                                    searchItem.toLowerCase()
+                                                )
+                                        ) {
+                                            return val;
+                                        }
+                                    })
+                                    .map((info, ind) => {
+                                        return (
+                                            <tr key={ind}>
+                                                <td>{info.department}</td>
+                                            </tr>
+                                        );
+                                    })
                             )}
                         </tbody>
                     </table>
@@ -47,3 +68,4 @@ export const Deptview = () => {
     );
 };
 export default Deptview;
+
